@@ -1,0 +1,9 @@
+[package]
+
+name="purple"
+version="0.0.1"
+authors=["anton.lofgren@gmail.com"]
+
+[[bin]]
+
+name="purple"
