@@ -1,4 +1,4 @@
-#![crate_id = "purple#0.0.1"]
+#![crate_name = "purple"]
 #![crate_type = "lib"]
 #![feature(globs)]
 use self::ll::*;
