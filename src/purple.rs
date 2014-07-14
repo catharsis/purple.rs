@@ -63,7 +63,7 @@ fn test_core_init() {
 
 	fn timeout_remove_fn(_: guint) -> gboolean {
 		println!("timeout_remove_fn called");
-		true
+		1
 	};
 
 	fn input_add_fn(_:c_int, _:PurpleInputCondition, _:PurpleInputFunction, _:gpointer) -> guint {
@@ -73,7 +73,7 @@ fn test_core_init() {
 
 	fn input_remove_fn(_:guint) -> gboolean {
 		println!("input_remove called");
-		true
+		1
 	};
 
 	let mut ops = PurpleEventLoopUiOps{

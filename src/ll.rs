@@ -3,12 +3,15 @@
 extern crate libc;
 use self::libc::{c_int,c_uint, c_void, c_char};
 
-pub type gboolean = bool;
+pub type PurpleRsBitmask = c_uint; //documentation type, see `bitflags!`
+
+pub type gint = c_int;
+pub type gboolean = gint; // 0 == false, !false == true (..duh)
 pub type guint = c_uint;
-pub type gpointer = *mut c_void; //FIXME, (void *)
-pub type GSourceFunc = fn(user_data:gpointer) -> gboolean; //FIXME, investigate
-pub type PurpleInputFunction = (); //FIXME: investigate
-pub type PurpleInputCondition = (); //FIXME: bitmask
+pub type gpointer = *mut c_void;
+pub type GSourceFunc = fn(user_data:gpointer) -> gboolean;
+pub type PurpleInputCondition = PurpleRsBitmask;
+pub type PurpleInputFunction = fn(_:gpointer, gint, PurpleInputCondition) -> ();
 pub struct PurpleEventLoopUiOps {
 	pub timeout_add: fn(interval:guint, function:GSourceFunc, data:gpointer) -> c_int,
 	pub timeout_remove: fn(handle:guint) -> gboolean,
