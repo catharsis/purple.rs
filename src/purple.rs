@@ -30,6 +30,17 @@ pub fn core_get_ui() -> String {
 	}
 }
 
+pub fn core_set_ui_ops(ops: *mut PurpleCoreUiOps) -> () {
+	unsafe {
+		purple_core_set_ui_ops(ops);
+	}
+}
+
+pub fn core_get_ui_ops() -> *mut PurpleCoreUiOps {
+	unsafe {
+		purple_core_get_ui_ops()
+	}
+}
 pub fn eventloop_set_ui_ops(ops: *mut PurpleEventLoopUiOps) -> () {
 	unsafe {
 		purple_eventloop_set_ui_ops(ops);
@@ -54,29 +65,37 @@ fn test_debug() {
 #[test]
 fn test_core_init() {
 	// FIXME: Woo... Bring out your boilerplates
+	// TODO: Add assertions that callbacks are being called properly
 	use self::libc::c_int;
 	let e = "PURPLE_TEST";
 	fn timeout_add_fn(_: guint, _: GSourceFunc, _: gpointer) -> c_int {
-		println!("timeout_add_fn called");
 		0
 	};
 
 	fn timeout_remove_fn(_: guint) -> gboolean {
-		println!("timeout_remove_fn called");
 		1
 	};
 
 	fn input_add_fn(_:c_int, _:PurpleInputCondition, _:PurpleInputFunction, _:gpointer) -> guint {
-		println!("input_add_fn called");
 		0
 	};
 
 	fn input_remove_fn(_:guint) -> gboolean {
-		println!("input_remove called");
 		1
 	};
 
-	let mut ops = PurpleEventLoopUiOps{
+	fn ui_init_fn() -> () {
+	};
+
+	let mut core_ops = PurpleCoreUiOps {
+		ui_prefs_init: None,
+		debug_ui_init: None,
+		ui_init: Some(ui_init_fn),
+		quit: None,
+		get_ui_info: None
+	};
+
+	let mut eventloop_ops = PurpleEventLoopUiOps {
 		timeout_add: timeout_add_fn,
 		timeout_remove: timeout_remove_fn,
 		input_add: input_add_fn,
@@ -84,7 +103,8 @@ fn test_core_init() {
 		input_get_error: None,
 		timeout_add_seconds: None,
 	};
-	eventloop_set_ui_ops(&mut ops);
+	eventloop_set_ui_ops(&mut eventloop_ops);
+	core_set_ui_ops(&mut core_ops);
 	core_init(e);
 	assert!(e == core_get_ui().as_slice());
 }
