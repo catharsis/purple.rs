@@ -149,6 +149,8 @@ extern {
 	pub fn purple_core_get_ui() -> *const c_char;
 	pub fn purple_core_set_ui_ops(_: *mut PurpleCoreUiOps) -> ();
 	pub fn purple_core_get_ui_ops() -> *mut PurpleCoreUiOps;
+	pub fn purple_core_get_version() -> *const c_char;
+	pub fn purple_get_core() -> PurpleCore;
 }
 
 #[link(name="purple")]

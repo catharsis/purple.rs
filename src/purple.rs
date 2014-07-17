@@ -53,6 +53,12 @@ pub fn core_get_ui_ops() -> *mut PurpleCoreUiOps {
 		purple_core_get_ui_ops()
 	}
 }
+
+pub fn core_get_version() -> String {
+	unsafe {
+		CString::new(purple_core_get_version(), false).as_str().unwrap().to_string()
+	}
+}
 pub fn eventloop_set_ui_ops(ops: *mut PurpleEventLoopUiOps) -> () {
 	unsafe {
 		purple_eventloop_set_ui_ops(ops);
@@ -115,8 +121,15 @@ fn test_core_init() {
 		input_get_error: None,
 		timeout_add_seconds: None,
 	};
+
 	eventloop_set_ui_ops(&mut eventloop_ops);
 	core_set_ui_ops(&mut core_ops);
 	core_init(e);
 	assert!(e == core_get_ui().as_slice());
+}
+
+#[test]
+fn test_core_get_version() {
+	let version = core_get_version();
+	assert!("" != version.as_slice());
 }
