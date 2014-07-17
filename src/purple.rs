@@ -75,6 +75,19 @@ mod core {
 			0 != purple_core_migrate()
 		}
 	}
+
+	pub fn ensure_single_instance() -> bool {
+		unsafe {
+			0 != purple_core_ensure_single_instance()
+		}
+	}
+
+	pub fn get_ui_info() -> *mut GHashTable {
+		unsafe {
+			purple_core_get_ui_info()
+		}
+	}
+
 }
 
 mod eventloop {
@@ -158,4 +171,9 @@ fn test_core_init() {
 fn test_core_get_version() {
 	let version = core::get_version();
 	assert!("" != version.as_slice());
+}
+
+#[test]
+fn test_core_ensure_single_instance() {
+	assert!(core::ensure_single_instance());
 }

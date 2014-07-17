@@ -156,6 +156,8 @@ extern {
 	pub fn purple_core_get_ui_ops() -> *mut PurpleCoreUiOps;
 	pub fn purple_core_get_version() -> *const c_char;
 	pub fn purple_core_migrate() -> gboolean;
+	pub fn purple_core_ensure_single_instance() -> gboolean;
+	pub fn purple_core_get_ui_info() -> *mut GHashTable;
 }
 
 /* eventloop.h*/
