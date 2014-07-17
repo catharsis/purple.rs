@@ -144,6 +144,8 @@ extern {
 #[link(name="purple")]
 extern {
 	pub fn purple_core_init(_: *const c_char) -> ();
+	pub fn purple_core_quit() -> ();
+	pub fn purple_core_quit_cb(unused:gpointer) -> gboolean;
 	pub fn purple_core_get_ui() -> *const c_char;
 	pub fn purple_core_set_ui_ops(_: *mut PurpleCoreUiOps) -> ();
 	pub fn purple_core_get_ui_ops() -> *mut PurpleCoreUiOps;

@@ -24,6 +24,18 @@ pub fn core_init(ui: &str) -> () {
 	}
 }
 
+pub fn core_quit() -> () {
+	unsafe {
+		purple_core_quit();
+	}
+}
+
+pub fn core_quit_cb(unused:gpointer) -> gboolean {
+	unsafe {
+		purple_core_quit_cb(unused as gpointer)
+	}
+}
+
 pub fn core_get_ui() -> String {
 	unsafe {
 		CString::new(purple_core_get_ui(), false).as_str().unwrap().to_string()
