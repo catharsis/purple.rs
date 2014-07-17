@@ -136,12 +136,15 @@ pub struct PurpleCoreUiOps {
 	 */
 	pub get_ui_info: Option<fn() -> GHashTable>
 }
+
+/* debug.h */
 #[link(name="purple")]
 extern {
 	pub fn purple_debug_set_enabled(_:bool) -> ();
 	pub fn purple_debug_is_enabled() -> bool;
 }
 
+/* core.h */
 #[link(name="purple")]
 extern {
 	pub fn purple_core_init(_: *const c_char) -> ();
@@ -152,8 +155,10 @@ extern {
 	pub fn purple_core_set_ui_ops(_: *mut PurpleCoreUiOps) -> ();
 	pub fn purple_core_get_ui_ops() -> *mut PurpleCoreUiOps;
 	pub fn purple_core_get_version() -> *const c_char;
+	pub fn purple_core_migrate() -> gboolean;
 }
 
+/* eventloop.h*/
 #[link(name="purple")]
 extern {
 	pub fn purple_eventloop_set_ui_ops(_: *mut PurpleEventLoopUiOps) -> ();

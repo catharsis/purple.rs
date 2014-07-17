@@ -69,6 +69,12 @@ mod core {
 			CString::new(purple_core_get_version(), false).as_str().unwrap().to_string()
 		}
 	}
+
+	pub fn migrate() -> bool {
+		unsafe {
+			0 != purple_core_migrate()
+		}
+	}
 }
 
 mod eventloop {
