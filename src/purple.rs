@@ -3,90 +3,100 @@
 #![feature(globs)]
 extern crate libc;
 use self::ll::*;
-use std::c_str::CString;
 pub mod ll;
-pub fn debug_set_enabled(debug: bool) -> () {
-	unsafe {
-		purple_debug_set_enabled(debug);
+
+mod debug {
+	use ll::*;
+	pub fn set_enabled(debug: bool) -> () {
+		unsafe {
+			purple_debug_set_enabled(debug);
+		}
+	}
+
+	pub fn is_enabled() -> bool {
+		unsafe {
+			purple_debug_is_enabled()
+		}
+	}
+}
+mod core {
+	use std::c_str::CString;
+	use ll::*;
+	pub fn init(ui: &str) -> () {
+		unsafe {
+			let cstr = ui.to_c_str();
+			purple_core_init(cstr.as_ptr());
+		}
+	}
+
+	pub fn quit() -> () {
+		unsafe {
+			purple_core_quit();
+		}
+	}
+
+	pub fn quit_cb(unused:gpointer) -> gboolean {
+		unsafe {
+			purple_core_quit_cb(unused as gpointer)
+		}
+	}
+
+	pub fn get_ui() -> String {
+		unsafe {
+			CString::new(purple_core_get_ui(), false).as_str().unwrap().to_string()
+		}
+	}
+
+	pub fn get_core() -> *mut PurpleCore {
+		unsafe {
+			purple_get_core()
+		}
+	}
+	pub fn set_ui_ops(ops: *mut PurpleCoreUiOps) -> () {
+		unsafe {
+			purple_core_set_ui_ops(ops);
+		}
+	}
+
+	pub fn get_ui_ops() -> *mut PurpleCoreUiOps {
+		unsafe {
+			purple_core_get_ui_ops()
+		}
+	}
+
+	pub fn get_version() -> String {
+		unsafe {
+			CString::new(purple_core_get_version(), false).as_str().unwrap().to_string()
+		}
 	}
 }
 
-pub fn debug_is_enabled() -> bool {
-	unsafe {
-		purple_debug_is_enabled()
+mod eventloop {
+	use ll::*;
+	pub fn set_ui_ops(ops: *mut PurpleEventLoopUiOps) -> () {
+		unsafe {
+			purple_eventloop_set_ui_ops(ops);
+		}
 	}
-}
 
-pub fn core_init(ui: &str) -> () {
-	unsafe {
-		let cstr = ui.to_c_str();
-		purple_core_init(cstr.as_ptr());
+	pub fn get_ui_ops() -> *mut PurpleEventLoopUiOps {
+		unsafe {
+			purple_eventloop_get_ui_ops()
+		}
 	}
-}
 
-pub fn core_quit() -> () {
-	unsafe {
-		purple_core_quit();
-	}
-}
-
-pub fn core_quit_cb(unused:gpointer) -> gboolean {
-	unsafe {
-		purple_core_quit_cb(unused as gpointer)
-	}
-}
-
-pub fn core_get_ui() -> String {
-	unsafe {
-		CString::new(purple_core_get_ui(), false).as_str().unwrap().to_string()
-	}
-}
-
-pub fn get_core() -> *mut PurpleCore {
-	unsafe {
-		purple_get_core()
-	}
-}
-pub fn core_set_ui_ops(ops: *mut PurpleCoreUiOps) -> () {
-	unsafe {
-		purple_core_set_ui_ops(ops);
-	}
-}
-
-pub fn core_get_ui_ops() -> *mut PurpleCoreUiOps {
-	unsafe {
-		purple_core_get_ui_ops()
-	}
-}
-
-pub fn core_get_version() -> String {
-	unsafe {
-		CString::new(purple_core_get_version(), false).as_str().unwrap().to_string()
-	}
-}
-pub fn eventloop_set_ui_ops(ops: *mut PurpleEventLoopUiOps) -> () {
-	unsafe {
-		purple_eventloop_set_ui_ops(ops);
-	}
-}
-
-pub fn eventloop_get_ui_ops() -> *mut PurpleEventLoopUiOps {
-	unsafe {
-		purple_eventloop_get_ui_ops()
-	}
-}
-
-pub fn timeout_add(interval:guint, function:GSourceFunc, data:gpointer) -> guint {
-	unsafe {
-		purple_timeout_add(interval, function, data)
+	pub fn timeout_add(interval:guint, function:GSourceFunc, data:gpointer) -> guint {
+		unsafe {
+			purple_timeout_add(interval, function, data)
+		}
 	}
 }
 #[test]
 fn test_debug() {
-	let d = debug_is_enabled();
+	let d = debug::is_enabled();
 	assert!(d == false);
-	debug_set_enabled(true);
-	let d = debug_is_enabled();
+	debug::set_enabled(true);
+	let d = debug::is_enabled();
 	assert!(d == true);
 }
 
@@ -132,14 +142,14 @@ fn test_core_init() {
 		timeout_add_seconds: None,
 	};
 
-	eventloop_set_ui_ops(&mut eventloop_ops);
-	core_set_ui_ops(&mut core_ops);
-	core_init(e);
-	assert!(e == core_get_ui().as_slice());
+	eventloop::set_ui_ops(&mut eventloop_ops);
+	core::set_ui_ops(&mut core_ops);
+	core::init(e);
+	assert!(e == core::get_ui().as_slice());
 }
 
 #[test]
 fn test_core_get_version() {
-	let version = core_get_version();
+	let version = core::get_version();
 	assert!("" != version.as_slice());
 }
