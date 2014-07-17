@@ -12,7 +12,8 @@ pub type gpointer = *mut c_void;
 pub type GSourceFunc = fn(user_data:gpointer) -> gboolean;
 pub type PurpleInputCondition = PurpleRsBitmask;
 pub type PurpleInputFunction = fn(_:gpointer, gint, PurpleInputCondition) -> ();
-pub type GHashTable = (); //FIXME: investigate
+pub struct GHashTable; //FIXME: investigate
+pub struct PurpleCore;
 
 pub struct PurpleEventLoopUiOps {
 	/**
@@ -147,14 +148,15 @@ extern {
 	pub fn purple_core_quit() -> ();
 	pub fn purple_core_quit_cb(unused:gpointer) -> gboolean;
 	pub fn purple_core_get_ui() -> *const c_char;
+	pub fn purple_get_core() -> *mut PurpleCore;
 	pub fn purple_core_set_ui_ops(_: *mut PurpleCoreUiOps) -> ();
 	pub fn purple_core_get_ui_ops() -> *mut PurpleCoreUiOps;
 	pub fn purple_core_get_version() -> *const c_char;
-	pub fn purple_get_core() -> PurpleCore;
 }
 
 #[link(name="purple")]
 extern {
 	pub fn purple_eventloop_set_ui_ops(_: *mut PurpleEventLoopUiOps) -> ();
 	pub fn purple_eventloop_get_ui_ops() -> *mut PurpleEventLoopUiOps;
+	pub fn purple_timeout_add(interval:guint, function:GSourceFunc, data:gpointer) -> guint;
 }

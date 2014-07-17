@@ -42,6 +42,11 @@ pub fn core_get_ui() -> String {
 	}
 }
 
+pub fn get_core() -> *mut PurpleCore {
+	unsafe {
+		purple_get_core()
+	}
+}
 pub fn core_set_ui_ops(ops: *mut PurpleCoreUiOps) -> () {
 	unsafe {
 		purple_core_set_ui_ops(ops);
@@ -71,6 +76,11 @@ pub fn eventloop_get_ui_ops() -> *mut PurpleEventLoopUiOps {
 	}
 }
 
+pub fn timeout_add(interval:guint, function:GSourceFunc, data:gpointer) -> guint {
+	unsafe {
+		purple_timeout_add(interval, function, data)
+	}
+}
 #[test]
 fn test_debug() {
 	let d = debug_is_enabled();
