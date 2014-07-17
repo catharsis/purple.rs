@@ -133,7 +133,7 @@ pub struct PurpleCoreUiOps {
 	/** Called by purple_core_get_ui_info(); should return the information
 	 *  documented there.
 	 */
-	pub get_ui_info: Option<fn() -> &GHashTable>
+	pub get_ui_info: Option<fn() -> GHashTable>
 }
 #[link(name="purple")]
 extern {
