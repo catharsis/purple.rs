@@ -38,7 +38,7 @@ pub struct PurpleEventLoopUiOps {
 	 *
 	 * @see purple_timeout_add
 	 **/
-	pub timeout_add: fn(interval:guint, function:GSourceFunc, data:gpointer) -> c_int,
+	pub timeout_add: fn(interval:guint, function:GSourceFunc, data:gpointer) -> guint,
 
 	/**
 	 * Should remove a callback timer.  Analogous to g_source_remove in glib.

@@ -66,10 +66,10 @@ fn test_debug() {
 fn test_core_init() {
 	// FIXME: Woo... Bring out your boilerplates
 	// TODO: Add assertions that callbacks are being called properly
-	use self::libc::c_int;
+	use self::libc::{c_int, c_uint};
 	let e = "PURPLE_TEST";
-	fn timeout_add_fn(_: guint, _: GSourceFunc, _: gpointer) -> c_int {
-		0
+	fn timeout_add_fn(_: guint, _: GSourceFunc, _: gpointer) -> c_uint {
+		1
 	};
 
 	fn timeout_remove_fn(_: guint) -> gboolean {
