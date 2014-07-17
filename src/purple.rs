@@ -35,9 +35,9 @@ mod core {
 		}
 	}
 
-	pub fn quit_cb(unused:gpointer) -> gboolean {
+	pub fn quit_cb(unused:gpointer) -> bool {
 		unsafe {
-			purple_core_quit_cb(unused as gpointer)
+			0 != purple_core_quit_cb(unused as gpointer)
 		}
 	}
 
