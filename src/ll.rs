@@ -166,4 +166,10 @@ extern {
 	pub fn purple_eventloop_set_ui_ops(_: *mut PurpleEventLoopUiOps) -> ();
 	pub fn purple_eventloop_get_ui_ops() -> *mut PurpleEventLoopUiOps;
 	pub fn purple_timeout_add(interval:guint, function:GSourceFunc, data:gpointer) -> guint;
+	pub fn purple_timeout_add_seconds(interval:guint, function:GSourceFunc, data:gpointer) -> guint;
+	pub fn purple_timeout_remove(handle:guint) -> gboolean;
+	pub fn purple_input_add(fd:c_int, cond:PurpleInputCondition,
+                       function:PurpleInputFunction, user_data:gpointer) -> guint;
+	pub fn purple_input_remove(handle:guint ) -> gboolean;
+	pub fn purple_input_get_error(fd:c_int, error: *mut c_int) -> c_int;
 }

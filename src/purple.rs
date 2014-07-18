@@ -91,6 +91,7 @@ mod core {
 }
 
 mod eventloop {
+	use libc::c_int;
 	use ll::*;
 	pub fn set_ui_ops(ops: *mut PurpleEventLoopUiOps) -> () {
 		unsafe {
@@ -109,6 +110,36 @@ mod eventloop {
 			purple_timeout_add(interval, function, data)
 		}
 	}
+
+	pub fn timeout_add_seconds(interval:guint, function:GSourceFunc, data:gpointer) -> guint {
+		unsafe {
+			purple_timeout_add_seconds(interval, function, data)
+		}
+	}
+
+	pub fn timeout_remove(handle:guint) -> bool {
+		unsafe {
+			0 != purple_timeout_remove(handle)
+		}
+	}
+	pub fn input_add(fd:c_int, cond:PurpleInputCondition, function:PurpleInputFunction, user_data:gpointer) -> guint {
+		unsafe {
+			purple_input_add(fd, cond, function, user_data)
+		}
+	}
+
+	pub fn input_remove(handle:guint) -> bool {
+		unsafe {
+			0 != purple_input_remove(handle)
+		}
+	}
+
+	pub fn input_get_error(fd:c_int, error: *mut c_int) -> c_int {
+		unsafe {
+			purple_input_get_error(fd, error)
+		}
+	}
+
 }
 #[test]
 fn test_debug() {
