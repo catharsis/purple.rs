@@ -7,17 +7,39 @@ pub mod ll;
 
 mod debug {
 	use ll::*;
+
 	pub fn set_enabled(debug: bool) -> () {
 		unsafe {
-			purple_debug_set_enabled(debug);
+			let d = match debug {
+				false => 0,
+				true => 1
+			};
+			purple_debug_set_enabled(d);
 		}
 	}
 
 	pub fn is_enabled() -> bool {
 		unsafe {
-			purple_debug_is_enabled()
+			purple_debug_is_enabled() != 0
 		}
 	}
+
+	pub fn set_verbose(verbose: bool) -> () {
+		unsafe {
+			let v = match verbose {
+				false => 0,
+				true => 1
+			};
+			purple_debug_set_verbose(v)
+		}
+	}
+
+	pub fn is_verbose() -> bool {
+		unsafe {
+			purple_debug_is_verbose() != 0
+		}
+	}
+
 }
 mod core {
 	use std::c_str::CString;
@@ -147,6 +169,15 @@ fn test_debug() {
 	assert!(d == false);
 	debug::set_enabled(true);
 	let d = debug::is_enabled();
+	assert!(d == true);
+}
+
+#[test]
+fn test_debug_verbose() {
+	let d = debug::is_verbose();
+	assert!(d == false);
+	debug::set_verbose(true);
+	let d = debug::is_verbose();
 	assert!(d == true);
 }
 
