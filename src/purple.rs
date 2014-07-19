@@ -4,39 +4,34 @@
 extern crate libc;
 use ffi::*;
 pub mod ffi;
+
+
 mod debug {
+
 	use ffi::debug::*;
 	use ffi::glibtypes::*;
 
 	pub fn set_enabled(debug: bool) -> () {
 		unsafe {
-			let d = match debug {
-				false => 0,
-				true => 1
-			};
-			purple_debug_set_enabled(d);
+			purple_debug_set_enabled(debug.as_gboolean());
 		}
 	}
 
 	pub fn is_enabled() -> bool {
 		unsafe {
-			purple_debug_is_enabled() != 0
+			purple_debug_is_enabled().as_bool()
 		}
 	}
 
 	pub fn set_verbose(verbose: bool) -> () {
 		unsafe {
-			let v = match verbose {
-				false => 0,
-				true => 1
-			};
-			purple_debug_set_verbose(v)
+			purple_debug_set_verbose(verbose.as_gboolean())
 		}
 	}
 
 	pub fn is_verbose() -> bool {
 		unsafe {
-			purple_debug_is_verbose() != 0
+			purple_debug_is_verbose().as_bool()
 		}
 	}
 
@@ -60,7 +55,7 @@ mod core {
 
 	pub fn quit_cb(unused:gpointer) -> bool {
 		unsafe {
-			0 != purple_core_quit_cb(unused as gpointer)
+			purple_core_quit_cb(unused as gpointer).as_bool()
 		}
 	}
 
@@ -95,13 +90,13 @@ mod core {
 
 	pub fn migrate() -> bool {
 		unsafe {
-			0 != purple_core_migrate()
+			purple_core_migrate().as_bool()
 		}
 	}
 
 	pub fn ensure_single_instance() -> bool {
 		unsafe {
-			0 != purple_core_ensure_single_instance()
+			purple_core_ensure_single_instance().as_bool()
 		}
 	}
 
@@ -144,7 +139,7 @@ mod eventloop {
 
 	pub fn timeout_remove(handle:guint) -> bool {
 		unsafe {
-			0 != purple_timeout_remove(handle)
+			purple_timeout_remove(handle).as_bool()
 		}
 	}
 	pub fn input_add(fd:c_int, cond:PurpleInputCondition, function:PurpleInputFunction, user_data:gpointer) -> guint {
@@ -155,7 +150,7 @@ mod eventloop {
 
 	pub fn input_remove(handle:guint) -> bool {
 		unsafe {
-			0 != purple_input_remove(handle)
+			purple_input_remove(handle).as_bool()
 		}
 	}
 
