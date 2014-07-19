@@ -1,6 +1,10 @@
 use ffi::glibtypes::*;
 use ffi::types::*;
 use libc::c_int;
+
+pub type PurpleInputCondition = PurpleRsBitmask;
+pub type PurpleInputFunction = fn(_:gpointer, gint, PurpleInputCondition) -> ();
+
 pub struct PurpleEventLoopUiOps {
 	/**
 	 * Should create a callback timer with an interval measured in

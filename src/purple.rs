@@ -1,10 +1,9 @@
 #![crate_name = "purple"]
 #![crate_type = "lib"]
 #![feature(globs)]
+#![allow(dead_code)]
 extern crate libc;
-use ffi::*;
 pub mod ffi;
-
 
 mod debug {
 
@@ -36,6 +35,7 @@ mod debug {
 	}
 
 }
+
 mod core {
 	use std::c_str::CString;
 	use ffi::core::*;
@@ -112,7 +112,6 @@ mod eventloop {
 	use libc::c_int;
 	use ffi::eventloop::*;
 	use ffi::glibtypes::*;
-	use ffi::types::{PurpleInputCondition, PurpleInputFunction};
 	pub fn set_ui_ops(ops: *mut PurpleEventLoopUiOps) -> () {
 		unsafe {
 			purple_eventloop_set_ui_ops(ops);
@@ -185,7 +184,6 @@ fn test_core_init() {
 	// TODO: Add assertions that callbacks are being called properly
 	use self::libc::{c_int, c_uint};
 	use self::ffi::glibtypes::*;
-	use self::ffi::types::*;
 	use self::ffi::core::*;
 	use self::ffi::eventloop::*;
 	let e = "PURPLE_TEST";
