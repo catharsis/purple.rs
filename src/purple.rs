@@ -162,20 +162,21 @@ mod eventloop {
 }
 #[test]
 fn test_debug() {
+	use self::libc::c_double;
 	let d = debug::is_enabled();
 	assert!(d == false);
 	debug::set_enabled(true);
 	let d = debug::is_enabled();
 	assert!(d == true);
-}
-
-#[test]
-fn test_debug_verbose() {
 	let d = debug::is_verbose();
 	assert!(d == false);
 	debug::set_verbose(true);
 	let d = debug::is_verbose();
 	assert!(d == true);
+	unsafe {
+		ffi::debug::purple_debug(ffi::debug::PURPLE_DEBUG_ERROR, "Category".to_c_str().as_ptr(), "%s %f".to_c_str().as_ptr(), "Woo", 3.14f32 as c_double);
+	}
+	debug::set_enabled(false);
 }
 
 #[test]

@@ -24,6 +24,8 @@ extern {
 	pub fn purple_debug_is_enabled() -> gboolean;
 	pub fn purple_debug_set_verbose(verbose:gboolean) -> ();
 	pub fn purple_debug_is_verbose() -> gboolean;
+	pub fn purple_debug(level:PurpleDebugLevel, category:*const c_char,
+			format:*const c_char, ...) -> ();
 }
 
 
