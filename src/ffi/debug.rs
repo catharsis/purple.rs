@@ -1,6 +1,8 @@
 #![allow(non_camel_case_types)]
 use ffi::glibtypes::*;
 use libc::c_char;
+
+#[repr(C)]
 pub enum PurpleDebugLevel {
 	PURPLE_DEBUG_ALL = 0,
 	PURPLE_DEBUG_MISC,
