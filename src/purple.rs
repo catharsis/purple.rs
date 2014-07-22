@@ -174,7 +174,12 @@ fn test_debug() {
 	let d = debug::is_verbose();
 	assert!(d == true);
 	unsafe {
-		ffi::debug::purple_debug(ffi::debug::PURPLE_DEBUG_ERROR, "Category".to_c_str().as_ptr(), "%s %f".to_c_str().as_ptr(), "Woo", 3.14f32 as c_double);
+		ffi::debug::purple_debug(ffi::debug::PURPLE_DEBUG_ERROR, "Category".to_c_str().as_ptr(), "%s %f\n".to_c_str().as_ptr(), "Woo".to_c_str().as_ptr(), 3.14f32 as c_double);
+		ffi::debug::purple_debug_misc("Category".to_c_str().as_ptr(), "%s\n".to_c_str().as_ptr(), "MISC".to_c_str().as_ptr());
+		ffi::debug::purple_debug_info("Category".to_c_str().as_ptr(), "%s\n".to_c_str().as_ptr(), "INFO".to_c_str().as_ptr());
+		ffi::debug::purple_debug_warning("Category".to_c_str().as_ptr(), "%s\n".to_c_str().as_ptr(), "WARNING".to_c_str().as_ptr());
+		ffi::debug::purple_debug_error("Category".to_c_str().as_ptr(), "%s\n".to_c_str().as_ptr(), "ERROR".to_c_str().as_ptr());
+		ffi::debug::purple_debug_fatal("Category".to_c_str().as_ptr(), "%s\n".to_c_str().as_ptr(), "FATAL".to_c_str().as_ptr());
 	}
 	debug::set_enabled(false);
 }

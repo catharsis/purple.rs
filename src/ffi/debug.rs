@@ -26,6 +26,11 @@ extern {
 	pub fn purple_debug_is_verbose() -> gboolean;
 	pub fn purple_debug(level:PurpleDebugLevel, category:*const c_char,
 			format:*const c_char, ...) -> ();
+	pub fn purple_debug_misc(category: *const c_char, format:  *const c_char, ...) -> ();
+	pub fn purple_debug_info(category: *const c_char, format:  *const c_char, ...) -> ();
+	pub fn purple_debug_warning(category: *const c_char, format:  *const c_char, ...) -> ();
+	pub fn purple_debug_error(category: *const c_char, format:  *const c_char, ...) -> ();
+	pub fn purple_debug_fatal(category: *const c_char, format:  *const c_char, ...) -> ();
 }
 
 
