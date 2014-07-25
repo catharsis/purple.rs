@@ -31,6 +31,7 @@ extern {
 	pub fn purple_debug_warning(category: *const c_char, format:  *const c_char, ...) -> ();
 	pub fn purple_debug_error(category: *const c_char, format:  *const c_char, ...) -> ();
 	pub fn purple_debug_fatal(category: *const c_char, format:  *const c_char, ...) -> ();
+	pub fn purple_debug_init() -> ();
 }
 
 

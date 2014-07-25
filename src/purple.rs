@@ -34,6 +34,12 @@ mod debug {
 		}
 	}
 
+	pub fn init() -> () {
+		unsafe {
+			purple_debug_init();
+		}
+	}
+
 }
 
 mod core {
