@@ -14,7 +14,7 @@ pub enum PurpleDebugLevel {
 
 pub struct PurpleDebugUiOps
 {
-	pub print: fn(level:PurpleDebugLevel, category: *const c_char, arg_s: *const char) -> (),
+	pub print: fn(level:PurpleDebugLevel, category: *const c_char, arg_s: *const c_char) -> (),
 	pub is_enabled:  fn(level:PurpleDebugLevel, category: *const c_char) -> gboolean
 }
 
