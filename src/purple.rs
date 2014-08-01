@@ -5,6 +5,14 @@
 extern crate libc;
 pub mod ffi;
 
+mod account {
+	use ffi::account::*;
+	pub fn new(username: &str, protocol_id: &str) -> *mut PurpleAccount {
+		unsafe {
+			purple_account_new(username.to_c_str().as_ptr(), protocol_id.to_c_str().as_ptr())
+		}
+	}
+}
 mod debug {
 
 	use ffi::debug::*;
